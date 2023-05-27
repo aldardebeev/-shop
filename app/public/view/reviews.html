@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        p {
+            border: 2px solid powderblue;
+            padding: 50px;
+        }
+        body {background-color: powderblue;}
+        h1   {color: blue;}
+        p    {color: red;}
+    </style>
+</head>
+<body style="color: darkblue;">
+<h2 style="color:rgb(0,0,117);">Оставтье отзыв</h2>
+
+<form action="" method="POST" >
+    <label for="name">Ваши данные:</label><br><br>
+    <input type="text" id="name" name="name" ><br><br>
+    <label for="lastName">Ваш отзыв:</label><br><br>
+    <textarea type="text" id="lastName" name="lastName"></textarea><br><br>
+    <input type="submit" value="Добавить">
+</form>
+
+<!--$queryLast = "select name from users where id=(select max(id) from users)";-->
+<!--$res1 = $DBH->query($queryLast);-->
+<!--$endName = $res1->fetch();-->
+<!--print_r("Последний отзыв от пользователя  - " . $endName['name']);-->
+
+<!--$queryAll = "SELECT * FROM users ORDER BY id DESC";-->
+<!--$res = $DBH->query($queryAll);-->
+<!--while ($row = $res->fetch())-->
+<!--{-->
+<!--echo '<pre>'. '<br>';-->
+<!--            print_r("Отзыв №".$row['id'] ."<br>Пользователь - ".$row['name'] ."<br>Отзыв: ".$row['last_name'] );-->
+<!--        }-->
+
+<!--    }-->
