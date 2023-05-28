@@ -1,8 +1,38 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+    $errors = validate($_POST);
+
+    if (empty($errors)){
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
+
+        $passUser = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "select * from users where email = :em";
+        $query = $DBH->prepare($sql);
+
+        $query->execute(['em' => $email]);
+
+        $passDB = $query->fetch();
+
+
+        if (password_verify($password, $passDB['password'])) {
+            $_SESSION['email'] = $email;
+            header("Location: /main");
+
+        } else {
+            $errors['email'] = 'The username or password is incorrect';
+        }
+    }
+}
+function validate (array $param): array
+{
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     $errors = [];
 
     if (empty($email) ){
@@ -17,29 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (strlen($password) < 8){
         $errors['password'] = "The password must be at least 8 characters long";
     }
-    session_start();
-    if (empty($errors)){
-        $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
-
-        $passUser = password_hash($password, PASSWORD_DEFAULT);
-
-        $query = "select * from users where email= '$email'";
-        $result = $DBH->query($query);
-        $passDB = $result->fetch();
-
-        if (password_verify($password, $passDB['password'])) {
-            $_SESSION['email'] = $email;
-            header("Location: /main");
-
-        } else {
-            echo "no ok";
-        }
-    }
-
-
-
+    return $errors;
 }
-
 
 
 require_once './view/signin.phtml';

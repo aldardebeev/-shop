@@ -5,9 +5,11 @@ if (isset($_SESSION['email'])){
     $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
 
 
-    $query = "select * from users where email= '$email'";
-    $result = $DBH->query($query);
-    $DB = $result->fetch();
+    $sql = "select * from users where email = :em";
+    $query = $DBH->prepare($sql);
+    $query->execute(['em' => $email]);
+    $DB = $query->fetch();
+    print_r($DB['username']);
 
     require_once './view/main.phtml';
 
