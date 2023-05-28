@@ -1,15 +1,19 @@
 <?php
 $requestUri = $_SERVER['REQUEST_URI'];
 
-if ($requestUri === '/singup') {
-    require_once './hanldres/signup.php';
+
+$routes = [
+    '/signup' => './hanldres/signup.php',
+    '/signin' =>'./hanldres/signin.php',
+    '/main'=> './hanldres/main.php'
+];
+
+foreach ($routes as $key => $value){
+    if ($key === $requestUri){
+        require_once $value;
+    }
 }
-    elseif ($requestUri === '/singin'){
-   require_once  './hanldres/signin.php';
-}
-elseif ($requestUri === '/main'){
-    require_once  './hanldres/main.php';
-}
+
 ?>
 
 

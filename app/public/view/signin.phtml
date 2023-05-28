@@ -5,22 +5,25 @@
 <div class="login-box">
     <h2>Login</h2>
     <form action="" method="POST" class="form-horizontal" >
-        <div class="user-box">
-            <input type="email" class="form-control" name="email" required="required">
+        <label style="color: red">
             <?php if (isset($errors['email'])): ?>
                 <?php echo  $errors['email'] ?>
             <?php endif;?>
+        </label>
+        <div class="user-box">
+            <input type="email" class="form-control" name="email" required="required">
             <label>Username</label>
         </div>
+        <label style="color: red">
+            <?php if (isset($errors['password'])): ?>
+                <?php echo  $errors['password'] ?>
+            <?php endif;?>
+        </label>
         <div class="user-box" >
             <input type="password" class="form-control" name="password" required="required">
-
-                 <?php if (isset($errors['password'])): ?>
-                     <?php echo  $errors['password'] ?>
-                 <?php endif;?>
-
             <label>Password</label>
         </div>
+
         <a>
             <span></span>
             <span></span>

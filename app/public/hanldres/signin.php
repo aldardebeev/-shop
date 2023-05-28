@@ -1,6 +1,7 @@
 <?php
-session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    session_start();
 
     $errors = validate($_POST);
 
@@ -14,18 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         $sql = "select * from users where email = :em";
         $query = $DBH->prepare($sql);
-
         $query->execute(['em' => $email]);
+        $DB = $query->fetch();
 
-        $passDB = $query->fetch();
-
-
-        if (password_verify($password, $passDB['password'])) {
-            $_SESSION['email'] = $email;
-            header("Location: /main");
-
-        } else {
-            $errors['email'] = 'The username or password is incorrect';
+        if (empty($DB))
+        {
+            $errors['email'] = 'The email or password do not exit';
+        }
+        else{
+            if (password_verify($password, $DB['password'])) {
+                $_SESSION['email'] = $email;
+                header("Location: /main");
+            }
         }
     }
 }
