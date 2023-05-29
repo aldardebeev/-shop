@@ -1,20 +1,8 @@
 <?php
-$requestUri = $_SERVER['REQUEST_URI'];
 
+require_once '../App.php';
 
-$routes = [
-    '/signup' => './hanldres/signup.php',
-    '/signin' =>'./hanldres/signin.php',
-    '/main'=> './hanldres/main.php'
-];
+$app = new App();
 
-foreach ($routes as $key => $value){
-    if ($key === $requestUri){
-        require_once $value;
-    }
-}
-
-?>
-
-
+$app->run();
 

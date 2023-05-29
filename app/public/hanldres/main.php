@@ -8,7 +8,6 @@ if (isset($_SESSION['email'])){
     $query = $DBH->prepare($sql);
     $query->execute(['em' => $email]);
     $DB = $query->fetch();
-    print_r($DB['username']);
 
     require_once './view/main.phtml';
 
