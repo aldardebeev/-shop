@@ -9,8 +9,8 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Отзывы</a>
-                </li>
+                    <a class="nav-link active" aria-current="page" href="http://localhost:81/reviews">Отзывы</a>
+                </li
                 <li class="nav-item">
                     <a class="nav-link" href="/shoppingCart.phtml">Корзина</a>
                 </li>
@@ -24,7 +24,7 @@
 </nav>
 
 <nav class="product-filter">
-    <h1>Комплектующие для ПК</h1>
+    <h1 style="color:rgb(0,0,117);">Комплектующие для ПК</h1>
 </nav>
 
 <section class="products">
@@ -33,7 +33,7 @@
             <img src="./image/processor.jpg">
         </div>
         <div class="product-info">
-            <h5>Процессоры</h5>
+            <a class="navbar-brand" href="http://localhost:81/reviews">Процессор</a>
         </div>
     </div>
 
@@ -84,6 +84,7 @@
         v2.0b1 | 201101
         NOTE:WORK IN PROGRESS
         USE WITH CAUTION AND TEST WITH ABANDON */
+
 
     html,body,div,span,applet,object,iframe,
     h1,h2,h3,h4,h5,h6,p,blockquote,pre,
@@ -147,6 +148,7 @@
     \*------------------------------------*/
 
     @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
 
     body {
         margin: 0 auto;
@@ -265,4 +267,10 @@
         }
 
     }
+    p {
+        border: 2px solid powderblue;
+        padding: 50px;
+    }
+    body {background-color: powderblue;}
+
 </style>
