@@ -1,5 +1,5 @@
 <?php
-
+namespace MyNamespace\Controller;
 class MainController
 {
     public function main()
@@ -13,7 +13,6 @@ class MainController
             $query = $DBH->prepare($sql);
             $query->execute(['em' => $email]);
             $DB = $query->fetch();
-
 
             require_once './view/main.phtml';
 

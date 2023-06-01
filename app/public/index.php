@@ -1,8 +1,22 @@
 <?php
 
-require_once '../App.php';
+use MyNamespace\App;
+spl_autoload_register(function ($class){
 
-$app = new App();
+    $root = dirname(__DIR__);
+    $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+    $path = preg_replace('#^MyNamespace#', $root, $path);
+    print_r($path);
 
-$app->run();
+    if (file_exists($path)) {
+        require_once $path;
+        return true;
+    }
+    return false;
+});
+
+
+$object = new App();
+$object->run();
+
 

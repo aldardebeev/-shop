@@ -1,4 +1,5 @@
 <?php
+namespace MyNamespace\Controller;
 
 class UserController
 {
@@ -74,6 +75,7 @@ class UserController
 
     public function signup()
     {
+
 
         if ($_SERVER['REQUEST_METHOD'] ===  "POST") {
 
