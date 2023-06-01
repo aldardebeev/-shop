@@ -1,22 +1,16 @@
 <?php
+require_once '../Autoloader.php';
+Autoloader::register(dirname(__DIR__));
 
 use MyNamespace\App;
-spl_autoload_register(function ($class){
 
-    $root = dirname(__DIR__);
-    $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-    $path = preg_replace('#^MyNamespace#', $root, $path);
-    print_r($path);
+$app = new App();
 
-    if (file_exists($path)) {
-        require_once $path;
-        return true;
-    }
-    return false;
-});
+$app->addRoute('/signup', \MyNamespace\Controller\UserController::class, 'signup');
+$app->addRoute('/signin', \MyNamespace\Controller\UserController::class, 'signin');
+$app->addRoute('/main', \MyNamespace\Controller\MainController::class, 'main');
+$app->addRoute('/reviews', \MyNamespace\Controller\ReviewsController::class, 'reviews');
 
-
-$object = new App();
-$object->run();
+$app->run();
 
 

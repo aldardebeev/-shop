@@ -1,28 +1,30 @@
 <?php
 namespace MyNamespace;
-use MyNamespace\Controller\UserController as SignUpController;
-use MyNamespace\Controller\UserController as SignInController;
+use MyNamespace\Controller\UserController;
 use MyNamespace\Controller\MainController;
-
-
 
 class App
 {
+    private array $routes = [];
+
     public function run()
     {
         $url = $_SERVER['REQUEST_URI'];
 
-        if ($url === '/signup') {
-            $controller = new SignUpController();
-            $controller->signup();
-        } elseif ($url === '/signin') {
-            $controller = new SignInController();
-            $controller->signin();
-        } elseif ($url === '/main') {
-            $controller = new MainController();
-            $controller->main();
-        } else {
+        if (isset($this->routes[$url])){
+            $class = $this->routes[$url][0];
+            $method = $this->routes[$url][1];
+            $route = new $class;
+            $route->$method();
+        }
+        else{
             require_once './view/notFound.html';
         }
     }
+
+    public function addRoute(string $route, string $class, string $method)
+    {
+        $this->routes[$route] = [$class, $method];
+    }
+
 }
