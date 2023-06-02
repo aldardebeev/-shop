@@ -6,6 +6,9 @@ class ReviewsController
 {
     public function reviews()
     {
-        require_once './view/reviews.html';
+
+        return [
+            './view/reviews.html'
+        ];
     }
 }

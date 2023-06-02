@@ -5,26 +5,31 @@ use MyNamespace\Controller\MainController;
 
 class App
 {
-    private array $routes = [];
+    private array $routes = [
+        'GET' => [],
+        'POST' => []
+    ];
 
     public function run()
     {
         $url = $_SERVER['REQUEST_URI'];
 
-        if (isset($this->routes[$url])){
-            $class = $this->routes[$url][0];
-            $method = $this->routes[$url][1];
+        if (isset($this->routes[$_SERVER['REQUEST_METHOD']][$url])){
+            $appRoute = ($this->routes[$_SERVER['REQUEST_METHOD']][$url]);
+            list($class, $method ) = $appRoute;
             $route = new $class;
-            $route->$method();
+            list($view) = $route->$method();
+            require_once $view;
         }
         else{
             require_once './view/notFound.html';
         }
     }
 
-    public function addRoute(string $route, string $class, string $method)
-    {
-        $this->routes[$route] = [$class, $method];
+    public function get(string $route, string $class, string $method){
+        $this->routes['GET'][$route] = [$class, $method];
     }
-
+    public function post(string $route, string $class, string $method){
+        $this->routes['POST'][$route] = [$class, $method];
+    }
 }

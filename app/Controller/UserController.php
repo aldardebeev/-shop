@@ -27,7 +27,10 @@ class UserController
                 header("Location: /main");
             }
         }
-        require_once './view/signup.phtml';
+
+        return [
+            './view/signup.phtml'
+        ];
     }
 
     public function signin()
@@ -52,7 +55,10 @@ class UserController
                 }
             }
         }
-    require_once './view/signin.phtml';
+
+        return [
+            './view/signin.phtml'
+        ];
     }
 
     protected function validate (array $params, object $DBH): array

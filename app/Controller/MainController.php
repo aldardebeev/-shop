@@ -15,7 +15,9 @@ class MainController
             $query->execute(['em' => $email]);
             $DB = $query->fetch();
 
-            require_once './view/main.phtml';
+            return [
+                './view/main.phtml'
+            ];
 
         }elseif(empty($_SESSION['email'])) {
             header('Location: /signin');
