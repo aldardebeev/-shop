@@ -20,7 +20,7 @@
             font-family: 'Roboto', sans-serif;
         }
         .form-control {
-            border-color: #eee;
+            border-color: #808080;
             min-height: 41px;
             box-shadow: none !important;
         }
@@ -46,7 +46,7 @@
             color: #999;
             border-radius: 3px;
             margin-bottom: 15px;
-            background: #fff;
+            background: #212529;
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
             padding: 30px;
         }
@@ -87,48 +87,35 @@
             text-decoration: underline;
         }
     </style>
-</head>
-<body>
+
+
 <div class="signup-form">
-    <form action="" method="POST" class="form-horizontal">
-        <div class="col-xs-8 col-xs-offset-4">
-            <h2>Sign Up</h2>
+    <h2 style="color:#ffffff">Login</h2>
+    <form action="" method="POST" class="form-horizontal" >
+        <label style="color: red">
+            <?php if (isset($errors['email'])): ?>
+                <?php echo  $errors['email'] ?>
+            <?php endif;?>
+        </label>
+        <div class="user-box">
+            <input type="email" class="form-control" name="email" required="required">
+            <label>Username</label>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Username</label>
-            <div class="col-xs-8">
-                <input type="text" class="form-control" name="username" required="required">
-                <?php if (isset($errors['username'])): ?>
-                    <?php echo  $errors['username'] ?>
-                <?php endif;?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Email Address</label>
-            <div class="col-xs-8">
-                <input type="email" class="form-control" name="email" required="required">
-                <?php if (isset($errors['email'])): ?>
-                    <?php echo  $errors['email'] ?>
-                <?php endif;?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Password</label>
-            <div class="col-xs-8">
-                <input type="password" class="form-control" name="password" required="required">
-                <?php if (isset($errors['password'])): ?>
-                    <?php echo  $errors['password'] ?>
-                <?php endif;?>
-            </div>
+        <label style="color: red">
+            <?php if (isset($errors['password'])): ?>
+                <?php echo  $errors['password'] ?>
+            <?php endif;?>
+        </label>
+        <div class="user-box" >
+            <input type="password" class="form-control" name="password" required="required">
+            <label>Password</label>
         </div>
 
         <div class="form-group">
             <div class="col-xs-8 col-xs-offset-4">
-                <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
             </div>
         </div>
+
     </form>
-    <div class="text-center">Already have an account? <a href="/signin">Login here</a></div>
 </div>
-</body>
-</html>

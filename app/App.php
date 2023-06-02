@@ -19,10 +19,19 @@ class App
             list($class, $method ) = $appRoute;
             $route = new $class;
             list($view) = $route->$method();
+
+
+            ob_start();
             require_once $view;
+            $content = ob_get_clean();
+            $layuot = file_get_contents('../View/layout.phtml');
+
+            echo str_replace('{content}', $content, $layuot);
+
         }
         else{
-            require_once './view/notFound.html';
+            require_once '../View/notFound.html';
+
         }
     }
 

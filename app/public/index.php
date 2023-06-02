@@ -10,9 +10,11 @@ $app->get('/signup', \MyNamespace\Controller\UserController::class, 'signup');
 $app->get('/signin', \MyNamespace\Controller\UserController::class, 'signin');
 $app->get('/main', \MyNamespace\Controller\MainController::class, 'main');
 $app->get('/reviews', \MyNamespace\Controller\ReviewsController::class, 'reviews');
+$app->get('/clearCookies', \MyNamespace\Controller\UserController::class, 'clearCookies');
 
 $app->post('/signup', \MyNamespace\Controller\UserController::class, 'signup');
 $app->post('/signin', \MyNamespace\Controller\UserController::class, 'signin');
+$app->post('/reviews', \MyNamespace\Controller\ReviewsController::class, 'reviewsCheck');
 
 $app->run();
 

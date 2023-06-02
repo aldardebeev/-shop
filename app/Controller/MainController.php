@@ -16,11 +16,11 @@ class MainController
             $DB = $query->fetch();
 
             return [
-                './view/main.phtml'
+                '../View/main.phtml'
             ];
 
         }elseif(empty($_SESSION['email'])) {
-            header('Location: /signin');
+            header('Location: /signup');
             die();
         }
     }

@@ -29,7 +29,8 @@ class UserController
         }
 
         return [
-            './view/signup.phtml'
+            '../View/signup.phtml'
+
         ];
     }
 
@@ -57,10 +58,19 @@ class UserController
         }
 
         return [
-            './view/signin.phtml'
+            '../View/signin.phtml'
         ];
     }
 
+    public function clearCookies()
+    {
+
+        session_start();
+        session_unset();
+        session_destroy();
+        header('Location: /signup');
+        die();
+    }
     protected function validate (array $params, object $DBH): array
     {
         $username = $params['username'];
