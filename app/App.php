@@ -13,21 +13,27 @@ class App
     public function run()
     {
         $url = $_SERVER['REQUEST_URI'];
+        $method = $_SERVER['REQUEST_METHOD'];
 
-        if (isset($this->routes[$_SERVER['REQUEST_METHOD']][$url])){
-            $appRoute = ($this->routes[$_SERVER['REQUEST_METHOD']][$url]);
-            list($class, $method ) = $appRoute;
-            $route = new $class;
-            list($view) = $route->$method();
+        if (isset($this->routes[$method][$url])){
+            $callback = ($this->routes[$method][$url]);
+            if(is_callable($callback)){
+                echo $callback();
+            }
+            else{
+                list($class, $method) = $callback;
+                $object = new $class();
+                list($view, $params) = $object->$method();
 
+                extract($params);
 
-            ob_start();
-            require_once $view;
-            $content = ob_get_clean();
-            $layuot = file_get_contents('../View/layout.phtml');
+                ob_start();
+                require_once $view;
+                $content = ob_get_clean();
+                $layuot = file_get_contents('../View/layout.phtml');
 
-            echo str_replace('{content}', $content, $layuot);
-
+                echo str_replace('{content}', $content, $layuot);
+            }
         }
         else{
             require_once '../View/notFound.html';
@@ -35,10 +41,13 @@ class App
         }
     }
 
-    public function get(string $route, string $class, string $method){
-        $this->routes['GET'][$route] = [$class, $method];
+    public function get(string $route, callable|array $callback): void
+    {
+        $this->routes['GET'][$route] = $callback;
     }
-    public function post(string $route, string $class, string $method){
-        $this->routes['POST'][$route] = [$class, $method];
+
+    public function post(string $route, callable|array $callback): void
+    {
+        $this->routes['POST'][$route] = $callback;
     }
 }

@@ -5,30 +5,45 @@ use PDO;
 class ReviewsController
 {
     public function reviews()
-    {   session_start();
+    {
+        $errors = [];
+
+        session_start();
         if (isset($_SESSION['email'])){
             return [
-                '../View/reviews.html'
+                '../View/reviews.html',
+                1 => $errors
             ];
+
         }elseif(empty($_SESSION['email'])) {
             header('Location: /signup');
             die();
         }
+
     }
 
     public function reviewsCheck()
     {
-        session_start();
-        $email = $_SESSION['email'];
-        $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            session_start();
 
-        $sql = "select * from users where email = :em";
-        $query = $DBH->prepare($sql);
-        $query->execute(['em' => $email]);
-        $DB = $query->fetch();
-        print_r($DB['username']);
-        return [
-            '../View/reviews.html'
-        ];
+            $text = $_POST['text'];
+
+            $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
+
+            $sql = "select * from reviews where text = :text";
+            $query = $DBH->prepare($sql);
+            $query->execute(['text' => $text]);
+            $DB = $query->fetch();
+            print_r($DB);
+
+
+            return [
+                '../View/reviews.html',
+
+            ];
+
+        }
+
     }
 }

@@ -3,25 +3,34 @@ namespace MyNamespace\Controller;
 use PDO;
 class UserController
 {
+    private PDO $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
+    }
+
     public function signup()
     {
+        $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] ===  "POST") {
 
-            $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
 
             $username = $_POST['username'];
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            $errors = $this->validate($_POST, $DBH);
+            $errors = $this->validate($_POST);
+
             session_start();
 
             if (empty($errors)) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
 
                 $sql = "insert into users (username, email, password) values (:n, :ln, :pass)";
-                $query = $DBH->prepare($sql);
+
+                $query = $this->pdo->prepare($sql);
                 $query->execute(['n' => $username, 'ln' => $email,'pass' => $hash]);
                 $_SESSION['email'] = $email;
                 header("Location: /main");
@@ -29,13 +38,16 @@ class UserController
         }
 
         return [
-            '../View/signup.phtml'
+            '../View/signup.phtml',
+            1 => $errors
 
         ];
     }
 
     public function signin()
     {
+        $errors = [];
+
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             session_start();
             $DBH = new PDO('pgsql:host=db;port=5432;dbname=postgres', 'dbuser', 'dbpwd');
@@ -50,6 +62,8 @@ class UserController
                 $query->execute(['em' => $email]);
                 $DB = $query->fetch();
 
+
+
                 if (password_verify($password, $DB['password'])) {
                     $_SESSION['email'] = $email;
                     header("Location: /main");
@@ -58,11 +72,12 @@ class UserController
         }
 
         return [
-            '../View/signin.phtml'
+            '../View/signin.phtml',
+            1 => $errors
         ];
     }
 
-    public function clearCookies()
+    public function logout()
     {
 
         session_start();
@@ -71,7 +86,7 @@ class UserController
         header('Location: /signup');
         die();
     }
-    protected function validate (array $params, object $DBH): array
+    protected function validate (array $params): array
     {
         $username = $params['username'];
         $email = $params['email'];
@@ -93,7 +108,7 @@ class UserController
         }
         else{
             $sql = "select * from users where email = :em";
-            $query = $DBH->prepare($sql);
+            $query = $this->pdo->prepare($sql);
             $query->execute(['em' => $email]);
             $DB = $query->fetch();
             if(!empty($DB)) {
@@ -109,7 +124,7 @@ class UserController
         return $errors;
     }
 
-    public function validateSignin (array $params, object $DBH): array
+    protected function validateSignin (array $params): array
     {
         $email = $params['email'];
         $password = $params['password'];
@@ -123,7 +138,7 @@ class UserController
         }
         else{
             $sql = "select * from users where email = :em";
-            $query = $DBH->prepare($sql);
+            $query = $this->pdo->prepare($sql);
             $query->execute(['em' => $email]);
             $DB = $query->fetch();
 
